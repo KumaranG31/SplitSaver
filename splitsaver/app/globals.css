@@ -1,0 +1,181 @@
+@import "tailwindcss";
+
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Brand colours are static, so they are emitted as real custom properties and
+   can be referenced from component CSS via var(). */
+@theme {
+  --color-swiggy: #fc8019;
+  --color-swiggy-hover: #e5720f;
+  --color-zomato: #cb202d;
+  --color-toing: #0d9488;
+  --color-success: #10b981;
+  --color-whatsapp: #16a34a;
+  --color-whatsapp-hover: #15803d;
+  --color-danger: #ef4444;
+  --color-warning: #d97706;
+
+  --blur-xs: 2px;
+  --blur-sm: 4px;
+  --blur-md: 8px;
+  --blur-lg: 12px;
+  --blur-xl: 16px;
+
+  --radius-xl: 1.5rem;
+}
+
+/* Everything themed flips with the `.dark` class on <html>, so these are
+   declared outside `@theme` and re-exposed to Tailwind with `inline`. */
+:root {
+  --app-bg: #f1f5f9;
+  --app-fg: #0f172a;
+  --app-muted: #475569;
+  --surface: #ffffff;
+  --surface-hover: #f8fafc;
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(15, 23, 42, 0.1);
+  --divider: rgba(15, 23, 42, 0.16);
+  --field-ink: #0f172a;
+}
+
+:root.dark {
+  --app-bg: #0f172a;
+  --app-fg: #f8fafc;
+  --app-muted: #cbd5e1;
+  --surface: rgba(255, 255, 255, 0.06);
+  --surface-hover: rgba(255, 255, 255, 0.12);
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --divider: rgba(255, 255, 255, 0.25);
+  --field-ink: #f8fafc;
+}
+
+@theme inline {
+  --color-app-bg: var(--app-bg);
+  --color-app-fg: var(--app-fg);
+  --color-app-muted: var(--app-muted);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-glass: var(--glass-bg);
+  --color-glass-border: var(--glass-border);
+  --color-divider: var(--divider);
+  --color-field-ink: var(--field-ink);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--app-bg);
+    color: var(--app-fg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--divider);
+    border-radius: 0.5rem;
+  }
+}
+
+@layer components {
+  .glass {
+    background-color: var(--glass-bg);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 0.75rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.25rem;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 150ms ease, border-color 150ms ease, opacity 150ms ease;
+  }
+
+  .btn:disabled,
+  .btn[aria-disabled="true"] {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .btn-primary {
+    background-color: var(--color-swiggy);
+    color: #fff;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background-color: var(--color-swiggy-hover);
+  }
+
+  .btn-whatsapp {
+    background-color: var(--color-whatsapp);
+    color: #fff;
+  }
+
+  .btn-whatsapp:hover:not(:disabled) {
+    background-color: var(--color-whatsapp-hover);
+  }
+
+  .btn-secondary {
+    background-color: var(--surface);
+    border-color: var(--divider);
+    color: var(--app-fg);
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    background-color: var(--surface-hover);
+  }
+
+  .btn-ghost-danger {
+    background-color: transparent;
+    color: var(--color-danger);
+  }
+
+  .btn-ghost-danger:hover:not(:disabled) {
+    background-color: color-mix(in oklab, var(--color-danger) 12%, transparent);
+  }
+
+  .field {
+    width: 100%;
+    background-color: transparent;
+    border-bottom: 1px solid var(--divider);
+    color: var(--field-ink);
+  }
+
+  .field:focus {
+    outline: none;
+    border-bottom-color: var(--color-swiggy);
+  }
+
+  .card {
+    width: 100%;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+  }
+}
